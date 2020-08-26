@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">music</string>
+    <string name="artist">Top Artist</string>
+    <string name="artist_tittle">Artist</string>
+    <string name="name">Name:</string>
+    <string name="listeners">Listeners:</string>
+    <string name="mbid">Mbid:</string>
+    <string name="url">Url:</string>
 </resources>

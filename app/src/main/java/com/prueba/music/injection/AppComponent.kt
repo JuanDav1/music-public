@@ -1,6 +1,6 @@
 package com.prueba.music.injection
 
-import com.prueba.music.views.ArtistsActivity
+import com.prueba.music.views.activity.ArtistsActivity
 import com.prueba.music.views.MainActivity
 import dagger.Component
 import javax.inject.Singleton

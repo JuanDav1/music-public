@@ -1,4 +1,8 @@
 package com.prueba.music.repositories
 
-class LocalRepository {
+import com.prueba.music.database.DataBaseDao
+
+class LocalRepository(private var dataBaseDao: DataBaseDao) {
+
+
 }
