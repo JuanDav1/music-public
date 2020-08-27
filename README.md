@@ -80,7 +80,8 @@ En la arquitectura se tuvo en cuenta los principios SOLID, se intento cumplir a 
     * Repositorio cuando trae datos de la Api
     * Repositorio cuando existe un error al traer datos de la APi
     * Repositorio cuando trae datos vacios de la Api
-En cualquiera de los 3 casos anteriores se evaluan los LiveData de cada condición y se verifica que los estados los el metodo del ViewModel se encuentra bien estructurado
+    
+En cualquiera de los 3 casos anteriores se evaluan los LiveData de cada condición, verificando que el metodo evaluado del ViewModel se encuentra bien estructurado (cada Test resulto exitoso).
 
 ## Librerias
 
