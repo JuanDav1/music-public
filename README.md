@@ -92,6 +92,12 @@ Junit
 ## Diseño 
 Basado en Material Component
 
+## Git
+Commits realizados 
+* Configuracion inicial del projecto (esqueleto del proyecto)
+* Consumo de Api y testing
+* Persistencia local con bases de datos
+* Readme
 
 
 #### by Juan David Gutiérrez
