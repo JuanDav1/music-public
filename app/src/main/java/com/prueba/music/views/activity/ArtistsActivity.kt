@@ -19,7 +19,8 @@ import com.prueba.music.views.fragment.InformationDialogFragment
 import kotlinx.android.synthetic.main.activity_artists.*
 import javax.inject.Inject
 
-class ArtistsActivity : AppCompatActivity(),clickListener {
+class ArtistsActivity : AppCompatActivity(), clickListener, SearchView.OnQueryTextListener,
+    SearchView.OnCloseListener {
 
     lateinit var adapter: ArtistsAdapter
 
@@ -38,45 +39,75 @@ class ArtistsActivity : AppCompatActivity(),clickListener {
 
         viewModel.isDataBaseNull()
         setUpViewModel()
+        setUpSearch()
 
 
     }
 
 
 
-
-
-    fun showtArtists(artists: List<ArtistModel>){
-        adapter = ArtistsAdapter(artists as MutableList<ArtistModel>,this,this)
+    fun showtArtists(artists: List<ArtistModel>) {
+        adapter = ArtistsAdapter(artists as MutableList<ArtistModel>, this, this)
         recycler_artist.adapter = adapter
+        adapter.notifyDataSetChanged()
         text_error.visibility = View.GONE
-                }
+    }
 
     override fun onClickListener(artist: ArtistModel) {
         val informationDialogFragmet = InformationDialogFragment.newInstance(artist)
-        informationDialogFragmet.show(supportFragmentManager,"informationFragment")
-            }
+        informationDialogFragmet.show(supportFragmentManager, "informationFragment")
+    }
 
-    fun setUpViewModel(){
-        viewModel.responseLiveDataArtistModel.observe(this,Observer{artists -> showtArtists(artists)})
-        viewModel.onMessageError.observe(this,onMessageErrorObserver)
-        viewModel.isViewLoading.observe(this,isViewLoadingObserver)
+    fun setUpViewModel() {
+        viewModel.responseLiveDataArtistModel.observe(
+            this,
+            Observer { artists -> showtArtists(artists) })
+        viewModel.onMessageError.observe(this, onMessageErrorObserver)
+        viewModel.isViewLoading.observe(this, isViewLoadingObserver)
 
     }
 
 
-    private val isViewLoadingObserver= Observer<Boolean> {
+    private val isViewLoadingObserver = Observer<Boolean> {
 
-        val visibility=if(it)View.VISIBLE else View.GONE
-        progressBar.visibility= visibility
+        val visibility = if (it) View.VISIBLE else View.GONE
+        progressBar.visibility = visibility
 
     }
 
 
-    private val onMessageErrorObserver= Observer<Any> {
+    private val onMessageErrorObserver = Observer<Any> {
         text_error.visibility = View.VISIBLE
         text_error.text = "Error $it"
 
+    }
+
+    private fun setUpSearch() {
+        search_artist.setOnQueryTextListener(this)
+        search_artist.setOnCloseListener(this)
+    }
+
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        filterArtist(query)
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        filterArtist(newText)
+        return false
+    }
+
+    override fun onClose(): Boolean {
+        return true
+    }
+
+    fun filterArtist(query: String?) {
+        if (query != null && query.isNotEmpty()) {
+            viewModel.filterArtist(query.trim())
+        } else {
+            viewModel.getArtist()
+        }
     }
 
 

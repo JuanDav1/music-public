@@ -17,6 +17,9 @@ class LocalRepository(private var dataBaseDao: DataBaseDao) {
         return dataBaseDao.numberRecordsArtist()
     }
 
+    suspend fun filterArtist(name:String):List<ArtistModel>{
+        return dataBaseDao.filterArtist(name)
+    }
 
 
 }

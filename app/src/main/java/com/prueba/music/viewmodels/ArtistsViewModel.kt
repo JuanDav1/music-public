@@ -94,4 +94,10 @@ class ArtistsViewModel(
     }
 
 
+    fun filterArtist(name:String){
+        viewModelScope.launch {
+            _responseLiveDataGetArtistModel.postValue( localReposiroty!!.filterArtist(name))
+        }
+
+    }
 }

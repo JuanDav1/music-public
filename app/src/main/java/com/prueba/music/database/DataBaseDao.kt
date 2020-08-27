@@ -16,4 +16,7 @@ interface DataBaseDao {
     @Query("SELECT COUNT(*) FROM ArtistModel")
     suspend fun numberRecordsArtist():Int
 
+    @Query("SELECT * FROM ArtistModel WHERE name LIKE '%' || :name ||'%'")
+    suspend fun filterArtist(name:String):List<ArtistModel>
+
 }
