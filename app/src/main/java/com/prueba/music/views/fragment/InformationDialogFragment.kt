@@ -7,13 +7,14 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.prueba.music.R
 import com.prueba.music.models.Artist
+import com.prueba.music.models.ArtistModel
 import kotlinx.android.synthetic.main.fragment_dialog_information.view.*
 
 private const val ARG_PARAM1 = "param1"
 
 class InformationDialogFragment : DialogFragment() {
 
-    private lateinit var artist: Artist
+    private lateinit var artist: ArtistModel
 
 
     override fun getTheme(): Int = R.style.CustomDialog
@@ -21,7 +22,7 @@ class InformationDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            artist = it.getSerializable(ARG_PARAM1) as Artist
+            artist = it.getSerializable(ARG_PARAM1) as ArtistModel
 
         }
     }
@@ -48,7 +49,7 @@ class InformationDialogFragment : DialogFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(artist: Artist) =
+        fun newInstance(artist: ArtistModel) =
             InformationDialogFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_PARAM1, artist)

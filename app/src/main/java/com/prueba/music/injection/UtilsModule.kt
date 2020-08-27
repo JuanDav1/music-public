@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.prueba.music.api.AplicationApi
 import com.prueba.music.database.AplicationDB
+import com.prueba.music.database.DataBaseDao
 import com.prueba.music.repositories.LocalRepository
 import com.prueba.music.repositories.RemoteRepository
 import com.prueba.music.viewmodels.ViewModelFactory
@@ -23,7 +24,25 @@ import javax.inject.Singleton
 
 @Module
 class UtilsModule {
+    @Provides
+    @Singleton
+    fun getInstanceDB(context: Context): AplicationDB {
+        synchronized(this) {
+            var instance = INSTANCE
 
+            if (instance == null) {
+                instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AplicationDB::class.java,
+                    "music_database"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+                INSTANCE = instance
+            }
+            return instance
+        }
+    }
 
     private val baseUrl = "https://ws.audioscrobbler.com/2.0/"
 
@@ -85,34 +104,22 @@ class UtilsModule {
         return RemoteRepository(aplicationApiCall)
     }
 
-    @Provides
-    @Singleton
-    fun getLocalRepository(): LocalRepository {
-        return LocalRepository()
-    }
-
     @Volatile
     private var INSTANCE: AplicationDB? = null
 
+
+
+    @Singleton
+    @Provides
+    fun provideDao(aplicationDB: AplicationDB): DataBaseDao {
+        return aplicationDB.dataBaseDao()
+    }
     @Provides
     @Singleton
-    fun getInstanceDB(context: Context): AplicationDB {
-        synchronized(this) {
-            var instance = INSTANCE
-
-            if (instance == null) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AplicationDB::class.java,
-                    "music_database"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
-                INSTANCE = instance
-            }
-            return instance
-        }
+    fun getLocalRepository(dataBaseDao: DataBaseDao): LocalRepository {
+        return LocalRepository (dataBaseDao)
     }
+
 
 
 }

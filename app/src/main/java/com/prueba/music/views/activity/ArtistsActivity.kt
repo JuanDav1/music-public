@@ -2,12 +2,15 @@ package com.prueba.music.views.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.prueba.music.MusicApp
 import com.prueba.music.R
 import com.prueba.music.adapters.ArtistsAdapter
 import com.prueba.music.models.Artist
+import com.prueba.music.models.ArtistModel
 import com.prueba.music.models.Artists
 import com.prueba.music.utils.clickListener
 import com.prueba.music.viewmodels.ArtistsViewModel
@@ -19,6 +22,7 @@ import javax.inject.Inject
 class ArtistsActivity : AppCompatActivity(),clickListener {
 
     lateinit var adapter: ArtistsAdapter
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     lateinit var viewModel: ArtistsViewModel
@@ -30,19 +34,50 @@ class ArtistsActivity : AppCompatActivity(),clickListener {
         setContentView(R.layout.activity_artists)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ArtistsViewModel::class.java)
 
-        viewModel.responseLiveDataArtists.observe(this,Observer{artists -> showArtists(artists)})
-        viewModel.loadArtist()
+
+
+        viewModel.isDataBaseNull()
+        setUpViewModel()
+
+
     }
 
 
-    fun showArtists(artists: Artists){
-        adapter = ArtistsAdapter(artists.topartists.artist,this,this)
-        recycler_artist.adapter = adapter
-        }
 
-    override fun onClickListener(artist: Artist) {
+
+
+    fun showtArtists(artists: List<ArtistModel>){
+        adapter = ArtistsAdapter(artists as MutableList<ArtistModel>,this,this)
+        recycler_artist.adapter = adapter
+        text_error.visibility = View.GONE
+                }
+
+    override fun onClickListener(artist: ArtistModel) {
         val informationDialogFragmet = InformationDialogFragment.newInstance(artist)
         informationDialogFragmet.show(supportFragmentManager,"informationFragment")
             }
+
+    fun setUpViewModel(){
+        viewModel.responseLiveDataArtistModel.observe(this,Observer{artists -> showtArtists(artists)})
+        viewModel.onMessageError.observe(this,onMessageErrorObserver)
+        viewModel.isViewLoading.observe(this,isViewLoadingObserver)
+
+    }
+
+
+    private val isViewLoadingObserver= Observer<Boolean> {
+
+        val visibility=if(it)View.VISIBLE else View.GONE
+        progressBar.visibility= visibility
+
+    }
+
+
+    private val onMessageErrorObserver= Observer<Any> {
+        text_error.visibility = View.VISIBLE
+        text_error.text = "Error $it"
+
+    }
+
 
 }

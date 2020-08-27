@@ -13,4 +13,7 @@ interface DataBaseDao {
     @Query("SELECT * FROM ArtistModel")
     suspend fun getArtist():List<ArtistModel>
 
+    @Query("SELECT COUNT(*) FROM ArtistModel")
+    suspend fun numberRecordsArtist():Int
+
 }
