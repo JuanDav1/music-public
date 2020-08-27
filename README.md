@@ -6,14 +6,19 @@ Instala Music App para visualizar los artistas Top junto a sus respectivos datos
 <img src="https://user-images.githubusercontent.com/31577004/91366692-10d49a00-e7ca-11ea-9d0c-53e96c5b3c4c.png" widh="200" />
 
 ## Requerimientos
-La App tiene como propocito presentar la prueba tecnica nivel I junto con funcionalidades adicionales
+La App tiene como proposito presentar la prueba tecnica nivel I junto con funcionalidades adicionales
 
 * EL usuario puede visualizar una lista a doble columna de los artistas Top, cada item es traido de http://ws.audioscrobbler.com/2.0 (Url Root de la Api de Last Fm) del metodo GEO propio de la APi
 * EL usuario visualiza cada item con una imagen (proporcionada por la APi) y un titulo que corresponde al nombre del artista.
-<img src="https://user-images.githubusercontent.com/31577004/91367700-c30d6100-e7cc-11ea-8788-6403010b1619.jpeg" width="200" />
+
+<img src="https://user-images.githubusercontent.com/31577004/91378242-931e8780-e7e5-11ea-9eab-29255a9809d0.jpeg" width="200" />
 
 * EL usuario puede presionar cada item para visulizar una nueva ventana con mas informacion del artista en donde se incluye una url para ir directamente a la pagina del arista en Last Fm
 <img src="https://user-images.githubusercontent.com/31577004/91367742-e0422f80-e7cc-11ea-8d5d-c4a62b38ec4e.jpeg" width="200" />
+
+* El usuario puede filtrar por nombre de Artista 
+<img src="https://user-images.githubusercontent.com/31577004/91378405-f90b0f00-e7e5-11ea-82e2-fddefced3a28.jpeg" width="200" />
+
 
 ## Requerimientos implicitos 
 * Cuando se genera un fallo al consumir los datos de la Api, se visualiza un mensaje de error
